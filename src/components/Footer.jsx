@@ -20,7 +20,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-16 text-sm text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Nikolai Lehbr. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Idris Adam Idris. All rights reserved.</p>
           <p>Design inspired by the original portfolio of Nikolai Lehbr.</p>
         </div>
       </div>

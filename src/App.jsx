@@ -8,8 +8,11 @@ import CustomCursor from './components/CustomCursor';
 import Header from './components/Header';
 import MenuOverlay from './components/MenuOverlay';
 import HeroSection from './components/HeroSection';
+import AboutSection from './components/AboutSection'; // <-- Import the new component
 import ProjectsSection from './components/ProjectsSection';
+import SkillsSection from './components/SkillsSection';
 import Footer from './components/Footer';
+import ExperienceSection from './components/ExperienceSection';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +56,10 @@ export default function App() {
             <MenuOverlay isOpen={isMenuOpen} onClose={handleMenuToggle} />
             <main>
               <HeroSection />
+              <AboutSection />
               <ProjectsSection />
+              <SkillsSection />
+              <ExperienceSection />
               <Footer />
             </main>
           </motion.div>
