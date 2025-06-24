@@ -13,6 +13,7 @@ import ProjectsSection from './components/ProjectsSection';
 import SkillsSection from './components/SkillsSection';
 import Footer from './components/Footer';
 import ExperienceSection from './components/ExperienceSection';
+import ContactSection from './components/ContactSection';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,6 +61,7 @@ export default function App() {
               <ProjectsSection />
               <SkillsSection />
               <ExperienceSection />
+              <ContactSection />
               <Footer />
             </main>
           </motion.div>

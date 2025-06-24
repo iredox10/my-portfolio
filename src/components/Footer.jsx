@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-4xl md:text-6xl font-bold">Let's create something together.</h3>
-            <a href="mailto:hello@example.com" className="text-xl md:text-2xl mt-4 inline-block hover:italic">hello@example.com</a>
+            <a href="mailto:idreesadam@gmail.com" className="text-xl md:text-2xl mt-4 inline-block hover:italic">hello@example.com</a>
           </div>
           <div className="flex md:justify-end items-end">
             <ul className="flex space-x-6">
@@ -21,7 +21,7 @@ const Footer = () => {
         </div>
         <div className="mt-16 text-sm text-gray-400">
           <p>&copy; {new Date().getFullYear()} Idris Adam Idris. All rights reserved.</p>
-          <p>Design inspired by the original portfolio of Nikolai Lehbr.</p>
+          <p>Design inspired by the original portfolio of <a href="https://www.nikolailehbr.ink/" _blank>Nikolai Lehbr.</a> </p>
         </div>
       </div>
     </footer>
