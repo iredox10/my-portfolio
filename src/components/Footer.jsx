@@ -1,31 +1,55 @@
-
 // src/components/Footer.jsx
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Linkedin, Github, ArrowUp, Twitter } from 'lucide-react';
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <footer className="bg-black text-white p-8 md:p-16">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3 className="text-4xl md:text-6xl font-bold">Let's create something together.</h3>
-            <a href="mailto:idreesadam@gmail.com" className="text-xl md:text-2xl mt-4 inline-block hover:italic">hello@example.com</a>
-          </div>
-          <div className="flex md:justify-end items-end">
-            <ul className="flex space-x-6">
-              <li><a href="#" className="text-lg hover:italic">Twitter</a></li>
-              <li><a href="#" className="text-lg hover:italic">LinkedIn</a></li>
-              <li><a href="#" className="text-lg hover:italic">GitHub</a></li>
-            </ul>
-          </div>
+    <footer className="bg-gray-900 text-white py-12 px-8 md:px-16 border-t border-white/10">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+
+        {/* Left Side: Signature & Copyright */}
+        <div className="text-center md:text-left">
+          <h3 className="text-2xl font-bold text-white">Iredox Tech</h3>
+          <p className="text-sm text-gray-400 mt-1">
+            &copy; {new Date().getFullYear()} All rights reserved.
+          </p>
         </div>
-        <div className="mt-16 text-sm text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Idris Adam Idris. All rights reserved.</p>
-          <p>Design inspired by the original portfolio of <a href="https://www.nikolailehbr.ink/" _blank>Nikolai Lehbr.</a> </p>
+
+        {/* Center: Social Links */}
+        <div className="flex space-x-6">
+
+
+          <motion.a target='_blank' href="mailto:idreesadam200@gmail.com" className="text-gray-400 hover:text-purple-400 transition-colors" whileHover={{ y: -3 }}><Mail size={24} /></motion.a>
+          <motion.a target='_blank' href="https://www.linkedin.com/in/idris-adam-3ab197117/" className="text-gray-400 hover:text-purple-400 transition-colors" whileHover={{ y: -3 }}><Linkedin size={24} /></motion.a>
+          <motion.a target='_blank' href="https://www.github.com/iredox10" className="text-gray-400 hover:text-purple-400 transition-colors" whileHover={{ y: -3 }}><Github size={24} /></motion.a>
+          <motion.a target='_blank' href="https://www.x.com/iredox50" className="text-gray-400 hover:text-purple-400 transition-colors" whileHover={{ y: -3 }}><Twitter size={24} /></motion.a>
+
+
         </div>
+
+        {/* Right Side: Back to Top */}
+        <div className="text-center md:text-right">
+          <motion.button
+            onClick={scrollToTop}
+            className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            whileHover={{ y: -3 }}
+          >
+            <span>Back to Top</span>
+            <ArrowUp size={20} className="transform group-hover:-translate-y-1 transition-transform" />
+          </motion.button>
+        </div>
+
       </div>
     </footer>
-  )
-}
+  );
+};
 
 export default Footer;
