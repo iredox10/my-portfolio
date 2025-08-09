@@ -6,7 +6,7 @@ export const projects = [
     year: 2025,
     description: "A full-stack, community-driven marketplace application designed to bring price transparency to consumers in Kano. The platform allows users to find, compare, and track the prices of goods, while empowering local shop owners to manage their digital storefront and reach more customers.",
     tags: ["React", "Appwrite", "Tailwind CSS"],
-    imageUrl: kanoPrice,
+    imageUrl: "https://placehold.co/800x600/1a1a1a/c084fc?text=Kano+Price+Checker",
     liveUrl: 'https://kanoprice.app/',
     githubUrl: 'https://github.com/iredox/kano-price-checker'
   },
