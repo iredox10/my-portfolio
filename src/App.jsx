@@ -1,4 +1,3 @@
-
 // src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,7 +7,7 @@ import CustomCursor from './components/CustomCursor';
 import Header from './components/Header';
 import MenuOverlay from './components/MenuOverlay';
 import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection'; // <-- Import the new component
+import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
 import SkillsSection from './components/SkillsSection';
 import Footer from './components/Footer';
@@ -18,6 +17,7 @@ import ContactSection from './components/ContactSection';
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [targetSection, setTargetSection] = useState(null);
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
@@ -25,7 +25,12 @@ export default function App() {
 
   const handleMenuToggle = () => {
     setIsMenuOpen(prev => !prev);
-  }
+  };
+
+  const handleNavigate = (href) => {
+    setIsMenuOpen(false);
+    setTargetSection(href);
+  };
 
   useEffect(() => {
     if (isLoading || isMenuOpen) {
@@ -35,6 +40,19 @@ export default function App() {
     }
   }, [isLoading, isMenuOpen]);
 
+  useEffect(() => {
+    if (targetSection && !isMenuOpen) {
+      const element = document.querySelector(targetSection);
+      if (element) {
+        // Use a timeout to ensure the overflow style has been applied
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+          setTargetSection(null); // Reset after scrolling
+        }, 100);
+      }
+    }
+  }, [targetSection, isMenuOpen]);
+
   return (
     <>
       <style>{`
@@ -43,7 +61,10 @@ export default function App() {
                 a, button { cursor: none; }
             `}</style>
 
-      <Loader onLoadingComplete={handleLoadingComplete} />
+      <AnimatePresence>
+        {isLoading && <Loader onLoadingComplete={handleLoadingComplete} />}
+      </AnimatePresence>
+      
       <CustomCursor />
 
       <AnimatePresence>
@@ -53,13 +74,13 @@ export default function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Header onMenuClick={handleMenuToggle} />
-            <MenuOverlay isOpen={isMenuOpen} onClose={handleMenuToggle} />
+            <Header onMenuClick={handleMenuToggle} isMenuOpen={isMenuOpen} />
+            <MenuOverlay isOpen={isMenuOpen} onNavigate={handleNavigate} />
             <main>
               <HeroSection />
               <AboutSection />
-              <ProjectsSection />
               <SkillsSection />
+              <ProjectsSection />
               <ExperienceSection />
               <ContactSection />
               <Footer />

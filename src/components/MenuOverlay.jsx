@@ -1,9 +1,8 @@
 // src/components/MenuOverlay.jsx
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
 
-const MenuOverlay = ({ isOpen, onClose }) => {
+const MenuOverlay = ({ isOpen, onNavigate }) => {
   const menuItems = [
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
@@ -12,6 +11,11 @@ const MenuOverlay = ({ isOpen, onClose }) => {
     { name: "Contact", href: "#contact" },
   ];
 
+  const handleLinkClick = (e, href) => {
+    e.preventDefault();
+    onNavigate(href);
+  };
+
   const overlayVariants = {
     hidden: {
       clipPath: 'circle(10px at 90% 6%)',
@@ -19,7 +23,6 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         type: 'spring',
         stiffness: 400,
         damping: 40,
-        delay: 0.5,
       },
     },
     visible: {
@@ -69,7 +72,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
               <motion.li key={item.name} variants={itemVariants}>
                 <a 
                   href={item.href} 
-                  onClick={onClose}
+                  onClick={(e) => handleLinkClick(e, item.href)}
                   className="text-4xl md:text-5xl font-bold text-gray-300 hover:text-white transition-colors"
                 >
                   <motion.span
