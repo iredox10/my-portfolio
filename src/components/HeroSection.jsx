@@ -49,7 +49,7 @@ const HeroImage = () => (
         <p>&gt; Iredox.location</p>
         <p className="text-gray-400">  "Kano, Nigeria"</p>
         <p>&gt; Iredox.skills</p>
-        <p className="text-gray-400">  ["React", "Node.js", "Next.js", "APIs"]</p>
+        <p className="text-gray-400">  ["React", "Node.js", "Next.js", "APIs", "Monogodb"]</p>
         <p className="text-green-400 animate-pulse">&gt; █</p>
       </div>
       <div className="flex justify-around items-center text-gray-400">
@@ -62,7 +62,7 @@ const HeroImage = () => (
 );
 
 const HeroSection = () => {
-  const name = "Iredox Tech".split("");
+  const name = "Idris Adam".split("");
   const tagline = "Full-Stack Web Developer".split("");
 
   return (
