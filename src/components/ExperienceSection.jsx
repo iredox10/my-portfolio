@@ -30,28 +30,34 @@ const TimelineItem = ({ experience, isLeft }) => {
     offset: ["start end", "end start"]
   });
 
+  // Animate from side on desktop, from bottom on mobile
   const x = useTransform(scrollYProgress, [0, 1], [isLeft ? -200 : 200, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [100, 0]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
   return (
     <motion.div
       ref={ref}
-      className="flex items-center justify-center my-12"
-      style={{ x, opacity }}
+      className="flex items-center justify-center my-12 lg:my-0"
+      style={{ 
+        x: window.innerWidth < 1024 ? 0 : x,
+        y: window.innerWidth < 1024 ? y : 0,
+        opacity 
+      }}
     >
-      <div className={`flex ${isLeft ? 'flex-row-reverse' : 'flex-row'} items-center w-full`}>
+      <div className={`flex ${isLeft ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center w-full`}>
         <motion.div 
           className="w-full lg:w-2/5"
           whileHover={{ scale: 1.03 }}
           transition={{ type: 'spring', stiffness: 300 }}
         >
-          <div className="relative bg-slate-800/70 backdrop-blur-lg border border-white/10 rounded-2xl p-8 shadow-2xl">
-            <div className={`absolute -top-5 ${isLeft ? '-right-5' : '-left-5'} w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white text-xl ring-4 ring-slate-900`}>
+          <div className="relative bg-slate-800/70 backdrop-blur-lg border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
+            <div className={`absolute -top-6 ${isLeft ? 'lg:-right-6' : 'lg:-left-6'} left-6 lg:left-auto w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white text-xl ring-4 ring-slate-900`}>
               {experience.icon}
             </div>
-            <p className="text-sm font-semibold text-purple-400 mb-1">{experience.date}</p>
-            <h3 className="text-2xl font-bold text-white mb-2">{experience.title}</h3>
-            <p className="text-lg text-gray-300 mb-3">{experience.institution}</p>
+            <p className="text-sm font-semibold text-purple-400 mb-1 mt-8 lg:mt-0">{experience.date}</p>
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{experience.title}</h3>
+            <p className="text-md lg:text-lg text-gray-300 mb-3">{experience.institution}</p>
             <p className="text-gray-400 leading-relaxed">{experience.description}</p>
           </div>
         </motion.div>
@@ -71,8 +77,8 @@ const ExperienceSection = () => {
   const pathLength = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
 
   return (
-    <section id="experience" ref={targetRef} className="bg-gray-900 text-white py-24 px-8 md:px-16 relative">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20800%22%3E%3Cpath%20fill%3D%22rgba(255,255,255,0.03)%22%20d%3D%22M0%200h800v800H0z%22%2F%3E%3C%2Fsvg%3E')] opacity-50" />
+    <section id="experience" ref={targetRef} className="bg-gray-900 text-white py-24 px-4 md:px-16 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20800%22%3E%3Cpath%20fill%3D%22rgba(255,255,255,0.03)%22%2D%3D%22M0%200h800v800H0z%22%2F%3E%3C%2Fsvg%3E')] opacity-50" />
       <div className="max-w-6xl mx-auto">
         <motion.h2
           className="text-4xl md:text-5xl font-bold text-center mb-8"
@@ -89,16 +95,16 @@ const ExperienceSection = () => {
 
         <div className="relative">
           {/* The Timeline Path */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-slate-700 -translate-x-1/2" />
+          <div className="absolute left-6 lg:left-1/2 top-0 bottom-0 w-1 bg-slate-700 lg:-translate-x-1/2" />
           <motion.div 
-            className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-pink-500 -translate-x-1/2"
+            className="absolute left-6 lg:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-pink-500 lg:-translate-x-1/2"
             style={{ scaleY: pathLength, transformOrigin: 'top' }}
           />
 
-          <div className="space-y-8">
+          <div className="space-y-16 lg:space-y-8">
             {experienceData.map((exp, index) => (
-              <div key={index} className="relative">
-                <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+              <div key={index} className="relative pl-16 lg:pl-0">
+                <div className="lg:flex absolute left-6 lg:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center hidden">
                   <motion.div 
                     className="w-4 h-4 rounded-full bg-purple-500 border-2 border-slate-900"
                     style={{
