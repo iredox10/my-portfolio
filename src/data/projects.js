@@ -22,22 +22,22 @@ export const projects = [
   },
   {
     id: 3,
-    title: "Explained",
-    year: 2025,
-    description: "A sleek and professional corporate website built with Next.js for server-side rendering and SEO optimization. It features a clean design, smooth animations with Framer Motion, and a headless CMS integration.",
-    tags: ["Next.js", "Appwrite", "Framer Motion", "Tailwind CSS"],
-    imageUrl: "https://placehold.co/800x600/1a1a1a/f472b6?text=Explained+Inc.",
-    liveUrl: '#',
-    githubUrl: '#'
+    title: "vehicle plate registration",
+    year: 2023,
+    description: " This is a full-stack web application for managing vehicle plate registrations. The system is designed with a clear   separation of concerns, featuring a React-based frontend and a Node.js (Express) backend, with a MongoDB database.",
+    tags: ["React", "Express", "MongoDB", "Node.js"],
+    imageUrl: "https://placehold.co/800x600/1a1a1a/f472b6?text=Vehicle+Plate+Reg.",
+    liveUrl: 'https://vehicle-plate-reg.netlify.app/',
+    githubUrl: 'https://github.com/iredox10/vehicle_plate_reg'
   },
   {
     id: 4,
-    title: "Taskify - Mobile App",
-    year: 2022,
-    description: "A cross-platform mobile application for task management, built with React Native. It allows users to create, organize, and track their daily tasks, with data persisted using Firebase.",
-    tags: ["React Native", "Firebase", "Mobile"],
-    imageUrl: "https://placehold.co/800x600/1a1a1a/818cf8?text=Taskify+App",
-    liveUrl: '#',
-    githubUrl: '#'
+    title: "Project Dock",
+    year: 2025,
+    description: " Project Dock is a web-based platform designed to serve as a comprehensive repository for academic projects, research papers, and case studies, with a primary focus on final-year projects from universities across Nigeria. The platform aims to provide students with a centralized, searchable database to find reference materials, gather ideas, and accelerate their own research and project work.",
+    tags: ["React", "Firebase", "Tailwind Css"],
+    imageUrl: "https://placehold.co/800x600/1a1a1a/818cf8?text=Project+Dock",
+    liveUrl: 'https://project-dock.netlify.app/',
+    githubUrl: 'https://github.com/iredox10/project-dock'
   },
 ];
