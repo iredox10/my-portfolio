@@ -12,17 +12,17 @@ export const projects = [
   },
   {
     id: 2,
-    title: "Flow E-commerce",
+    title: "Project Flow",
     year: 2025,
     description: "A modern e-commerce platform built with React and Firebase. Features include product browsing, filtering, a shopping cart, and a secure checkout process powered by Stripe.",
-    tags: ["React", "Firebase", "Stripe", "Tailwind CSS"],
-    imageUrl: "https://placehold.co/800x600/1a1a1a/c084fc?text=Flow+E-commerce",
-    liveUrl: '#',
-    githubUrl: '#'
+    tags: ["React", "Firebase", "Tailwind CSS"],
+    imageUrl: "https://placehold.co/800x600/1a1a1a/c084fc?text=Project+Flow",
+    liveUrl: 'https://school-project-flow.netlify.app/',
+    githubUrl: 'https://github.com/iredox10/project-flow'
   },
   {
     id: 3,
-    title: "Explained - Corporate Site",
+    title: "Explained",
     year: 2025,
     description: "A sleek and professional corporate website built with Next.js for server-side rendering and SEO optimization. It features a clean design, smooth animations with Framer Motion, and a headless CMS integration.",
     tags: ["Next.js", "Appwrite", "Framer Motion", "Tailwind CSS"],
