@@ -13,6 +13,7 @@ const MenuOverlay = ({ isOpen, onNavigate }) => {
 
   const handleLinkClick = (e, href) => {
     e.preventDefault();
+    console.log('hello')
     onNavigate(href);
   };
 
@@ -60,7 +61,7 @@ const MenuOverlay = ({ isOpen, onNavigate }) => {
           exit="hidden"
         >
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20800%22%3E%3Cpath%20fill%3D%22rgba(255,255,255,0.03)%22%20d%3D%22M0%200h800v800H0z%22%2F%3E%3C%2Fsvg%3E')] opacity-50" />
-          
+
           <motion.ul
             className="text-center space-y-8"
             variants={listVariants}
@@ -70,13 +71,13 @@ const MenuOverlay = ({ isOpen, onNavigate }) => {
           >
             {menuItems.map((item) => (
               <motion.li key={item.name} variants={itemVariants}>
-                <a 
-                  href={item.href} 
+                <a
+                  href={item.href}
                   onClick={(e) => handleLinkClick(e, item.href)}
                   className="text-4xl md:text-5xl font-bold text-gray-300 hover:text-white transition-colors"
                 >
                   <motion.span
-                    whileHover={{ 
+                    whileHover={{
                       color: '#c084fc',
                       textShadow: '0 0 15px rgba(192, 132, 252, 0.5)'
                     }}
