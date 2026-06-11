@@ -1,93 +1,83 @@
 // src/components/MenuOverlay.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const MENU_ITEMS = [
+  { name: 'About', href: '#about' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Contact', href: '#contact' },
+];
+
 const MenuOverlay = ({ isOpen, onNavigate }) => {
-  const menuItems = [
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
-    { name: "Contact", href: "#contact" },
-  ];
-
-  const handleLinkClick = (e, href) => {
-    e.preventDefault();
-    console.log('hello')
-    onNavigate(href);
-  };
-
-  const overlayVariants = {
-    hidden: {
-      clipPath: 'circle(10px at 90% 6%)',
-      transition: {
-        type: 'spring',
-        stiffness: 400,
-        damping: 40,
-      },
-    },
-    visible: {
-      clipPath: 'circle(150% at 90% 6%)',
-      transition: {
-        type: 'spring',
-        stiffness: 20,
-        restDelta: 2,
-      },
-    },
-  };
-
-  const listVariants = {
-    visible: {
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-    },
-    hidden: {
-      transition: { staggerChildren: 0.05, staggerDirection: -1 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0, transition: { y: { stiffness: 1000 } } },
-    visible: { y: 0, opacity: 1, transition: { y: { stiffness: 1000, velocity: -100 } } }
-  };
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape' && isOpen) onNavigate(null); };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isOpen, onNavigate]);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-slate-900 text-white flex flex-col items-center justify-center z-30"
-          variants={overlayVariants}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
+          className="fixed inset-0 bg-slate-50 dark:bg-[#080812] flex flex-col items-center justify-center z-30 overflow-hidden"
+          initial={{ clipPath: 'circle(10px at calc(100% - 56px) 56px)' }}
+          animate={{ clipPath: 'circle(150% at calc(100% - 56px) 56px)' }}
+          exit={{ clipPath: 'circle(10px at calc(100% - 56px) 56px)' }}
+          transition={{ type: 'spring', stiffness: 18, restDelta: 2 }}
         >
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20800%22%3E%3Cpath%20fill%3D%22rgba(255,255,255,0.03)%22%20d%3D%22M0%200h800v800H0z%22%2F%3E%3C%2Fsvg%3E')] opacity-50" />
+          {/* Decorative background element */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-[-20%] right-[-15%] w-[600px] h-[600px] rounded-full bg-purple-500/5 dark:bg-purple-500/10 blur-[100px]" />
+            <div className="absolute bottom-[-20%] left-[-15%] w-[500px] h-[500px] rounded-full bg-pink-500/5 dark:bg-pink-500/10 blur-[100px]" />
+          </div>
 
-          <motion.ul
-            className="text-center space-y-8"
-            variants={listVariants}
+          {/* Nav links */}
+          <motion.nav
+            className="flex flex-col items-center gap-2 relative z-10"
             initial="hidden"
             animate="visible"
             exit="hidden"
+            variants={{ visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } }, hidden: { transition: { staggerChildren: 0.04, staggerDirection: -1 } } }}
           >
-            {menuItems.map((item) => (
-              <motion.li key={item.name} variants={itemVariants}>
+            {MENU_ITEMS.map(({ name, href }, i) => (
+              <motion.div
+                key={name}
+                variants={{ hidden: { y: 40, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 24 } } }}
+              >
                 <a
-                  href={item.href}
-                  onClick={(e) => handleLinkClick(e, item.href)}
-                  className="text-4xl md:text-5xl font-bold text-gray-300 hover:text-white transition-colors"
+                  href={href}
+                  onClick={(e) => { e.preventDefault(); onNavigate(href); }}
+                  className="group relative block text-5xl md:text-7xl font-black text-slate-300 dark:text-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors duration-300 leading-tight tracking-tight text-center px-8 py-1"
                 >
+                  {/* Number prefix */}
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-400 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    0{i + 1}
+                  </span>
                   <motion.span
-                    whileHover={{
-                      color: '#c084fc',
-                      textShadow: '0 0 15px rgba(192, 132, 252, 0.5)'
-                    }}
+                    className="inline-block"
+                    whileHover={{ x: 12, color: '#a855f7' }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   >
-                    {item.name}
+                    {name}
                   </motion.span>
+                  {/* Underline */}
+                  <span className="absolute bottom-0 left-8 right-8 h-px bg-slate-200 dark:bg-slate-800 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                 </a>
-              </motion.li>
+              </motion.div>
             ))}
-          </motion.ul>
+          </motion.nav>
+
+          {/* Footer note in overlay */}
+          <motion.p
+            className="absolute bottom-10 text-xs text-slate-400 dark:text-slate-600 font-mono tracking-widest"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            Press <kbd className="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px]">ESC</kbd> to close
+          </motion.p>
         </motion.div>
       )}
     </AnimatePresence>

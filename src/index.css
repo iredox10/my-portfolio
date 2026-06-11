@@ -1,1 +1,101 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-bg-dark: #09090b;
+  --color-text-dark: #fafafa;
+  --color-bg-light: #fafafa;
+  --color-text-light: #09090b;
+}
+
+@layer base {
+  :root {
+    --bg-color: var(--color-bg-light);
+    --text-color: var(--color-text-light);
+  }
+
+  :root.dark {
+    --bg-color: var(--color-bg-dark);
+    --text-color: var(--color-text-dark);
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* ── Skip-to-content link (accessibility) ── */
+  .skip-link {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 0.75rem 1.5rem;
+    background: #9333ea;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.875rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: top 0.2s ease;
+    white-space: nowrap;
+  }
+  .skip-link:focus {
+    top: 1rem;
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  /* ── Global keyboard focus styles ── */
+  /* Override any component-level focus:outline-none for keyboard users */
+  *:focus-visible {
+    outline: 2px solid #a855f7 !important;
+    outline-offset: 3px !important;
+    border-radius: 4px;
+  }
+
+  /* ── Reduced motion: scale back all animations ── */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    /* Keep progress bar visible but static */
+    [style*="scaleX"] {
+      transform: scaleX(1) !important;
+    }
+  }
+
+  /* ── Lenis Smooth Scroll ── */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+  
+  /* Hide standard scrollbars for a cleaner look */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
