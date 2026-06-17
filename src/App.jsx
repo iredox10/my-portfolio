@@ -5,6 +5,8 @@ import SEOMeta from './components/SEOMeta';
 
 import Loader from './components/Loader';
 import CustomCursor from './components/CustomCursor';
+import { Canvas } from '@react-three/fiber';
+import LiquidCore from './components/LiquidCore';
 import ScrollProgress from './components/ScrollProgress';
 import Header from './components/Header';
 import MenuOverlay from './components/MenuOverlay';
@@ -12,7 +14,6 @@ import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
 import SkillsSection from './components/SkillsSection';
-import Footer from './components/Footer';
 import ExperienceSection from './components/ExperienceSection';
 import ContactSection from './components/ContactSection';
 
@@ -104,7 +105,12 @@ export default function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-
+            {/* Global WebGL Core */}
+            <div className="fixed inset-0 z-[-1] bg-[#000000] pointer-events-none">
+              <Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
+                <LiquidCore />
+              </Canvas>
+            </div>
 
             <Header onMenuClick={handleMenuToggle} isMenuOpen={isMenuOpen} />
             <MenuOverlay isOpen={isMenuOpen} onNavigate={handleNavigate} />
@@ -116,7 +122,6 @@ export default function App() {
               <ProjectsSection />
               <ExperienceSection />
               <ContactSection />
-              <Footer />
             </main>
           </motion.div>
         )}

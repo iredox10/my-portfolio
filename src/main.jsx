@@ -5,13 +5,16 @@ import './index.css'
 import App from './App.jsx'
 import { ThemeProvider } from './hooks/useTheme.jsx'
 import { SmoothScroll } from './context/SmoothScroll.jsx'
+import { AudioProvider } from './components/AudioProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
       <ThemeProvider>
         <SmoothScroll>
-          <App />
+          <AudioProvider>
+            <App />
+          </AudioProvider>
         </SmoothScroll>
       </ThemeProvider>
     </HelmetProvider>

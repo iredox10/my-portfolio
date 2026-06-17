@@ -1,29 +1,6 @@
-// src/components/GithubStats.jsx
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Star, GitFork, BookOpen } from 'lucide-react';
-
-// ─── Skeleton Loader ──────────────────────────────────────────────────────────
-const SkeletonBox = () => (
-  <div className="flex flex-col items-center p-4 bg-white/5 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-black/5 dark:border-white/10 animate-pulse">
-    <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 mb-2" />
-    <div className="h-7 w-12 rounded bg-slate-200 dark:bg-slate-700 mb-1" />
-    <div className="h-3 w-20 rounded bg-slate-100 dark:bg-slate-800" />
-  </div>
-);
-
-const StatBox = ({ icon, label, value }) => (
-  <motion.div
-    className="flex flex-col items-center p-4 bg-white/5 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-black/5 dark:border-white/10 hover:bg-white/10 transition-colors"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.4 }}
-  >
-    <div className="text-purple-600 dark:text-purple-400 mb-2">{icon}</div>
-    <div className="text-2xl font-bold text-slate-900 dark:text-white">{value}</div>
-    <div className="text-xs text-slate-500 dark:text-gray-400 uppercase tracking-wider mt-0.5">{label}</div>
-  </motion.div>
-);
+import { Github } from 'lucide-react';
 
 const GithubStats = () => {
   const [stats, setStats] = useState({ repos: 0, followers: 0, stars: 0, loading: true, error: false });
@@ -47,47 +24,36 @@ const GithubStats = () => {
     fetchStats();
   }, []);
 
+  if (stats.loading || stats.error) return null;
+
   return (
-    <motion.div
-      className="mt-12 max-w-4xl mx-auto"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-    >
-      <div className="flex items-center justify-center gap-3 mb-6">
-        <Github className="w-6 h-6 text-slate-900 dark:text-white" />
-        <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Live GitHub Stats</h3>
+    <div className="w-full flex flex-col items-center justify-center border-t border-white/20 pt-16 mt-16 px-6">
+      
+      <div className="flex items-center justify-center gap-4 mb-12 mix-blend-difference pointer-events-none">
+        <Github size={48} className="text-white" />
+        <h3 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">Live Stats</h3>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        {stats.loading ? (
-          // Skeleton state
-          <><SkeletonBox /><SkeletonBox /><SkeletonBox /></>
-        ) : stats.error ? (
-          // Error state — show placeholder instead of empty
-          <>
-            <StatBox icon={<BookOpen size={24} />} label="Public Repos" value="—" />
-            <StatBox icon={<Star size={24} />} label="Total Stars" value="—" />
-            <StatBox icon={<GitFork size={24} />} label="Followers" value="—" />
-          </>
-        ) : (
-          <>
-            <StatBox icon={<BookOpen size={24} />} label="Public Repos" value={stats.repos} />
-            <StatBox icon={<Star size={24} />} label="Total Stars" value={stats.stars} />
-            <StatBox icon={<GitFork size={24} />} label="Followers" value={stats.followers} />
-          </>
-        )}
+      <div className="w-full max-w-5xl flex flex-col md:flex-row justify-between gap-8 md:gap-4 border border-white/20 p-8 md:p-12 hover:border-white transition-colors duration-500">
+        
+        <div className="flex flex-col">
+          <span className="text-[12vw] md:text-[6vw] font-black text-white leading-none tracking-tighter">{stats.repos}</span>
+          <span className="text-white/50 font-mono text-sm uppercase tracking-widest mt-2">Repositories</span>
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-[12vw] md:text-[6vw] font-black text-white leading-none tracking-tighter text-transparent" style={{ WebkitTextStroke: '2px white' }}>{stats.stars}</span>
+          <span className="text-white/50 font-mono text-sm uppercase tracking-widest mt-2">Total Stars</span>
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-[12vw] md:text-[6vw] font-black text-[#a855f7] leading-none tracking-tighter">{stats.followers}</span>
+          <span className="text-white/50 font-mono text-sm uppercase tracking-widest mt-2">Followers</span>
+        </div>
+
       </div>
 
-      {stats.error && (
-        <p className="text-center text-xs text-slate-400 dark:text-slate-600 mt-3 font-mono">
-          Stats unavailable (GitHub API rate limit). View profile directly →{' '}
-          <a href="https://github.com/iredox10" target="_blank" rel="noopener noreferrer" className="text-purple-500 hover:underline">
-            github.com/iredox10
-          </a>
-        </p>
-      )}
-    </motion.div>
+    </div>
   );
 };
 

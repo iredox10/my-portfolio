@@ -2,40 +2,45 @@ import React, { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import { projects } from '../data/projects';
 import GithubStats from './GithubStats';
 import { ExternalLink, Github } from 'lucide-react';
+import DistortedImage from './DistortedImage';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ProjectCardHorizontal = ({ project, index }) => {
   return (
-    <div className="w-[85vw] md:w-[60vw] lg:w-[45vw] h-[65vh] flex-shrink-0 flex flex-col justify-center px-4 md:px-8">
-      <div className="relative w-full h-full rounded-3xl overflow-hidden group bg-[#111116]/80 backdrop-blur-md border border-white/10 shadow-2xl transition-all duration-500 hover:border-purple-500/30">
+    <div className="w-[90vw] md:w-[70vw] lg:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col justify-center px-4 md:px-8">
+      <div className="relative w-full h-full rounded-none overflow-hidden group bg-black/50 border border-white/10 transition-all duration-700 hover:border-white/40">
         
-        {/* Placeholder image background - user can replace with actual img tags later */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 to-pink-900/10 group-hover:from-purple-900/20 group-hover:to-pink-900/20 transition-colors z-10 mix-blend-overlay"></div>
-        <div className="absolute inset-0 flex items-center justify-center text-white/5 font-black text-9xl uppercase overflow-hidden whitespace-nowrap opacity-20 transform -rotate-12 scale-150 transition-transform duration-1000 group-hover:scale-125">
-          {project.title}
+        <div className="absolute inset-0 z-0 opacity-60 group-hover:opacity-100 transition-opacity duration-1000">
+          <DistortedImage url={project.imageUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop'} />
         </div>
         
-        <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 z-20 bg-gradient-to-t from-black via-black/60 to-transparent">
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-1000 z-10 pointer-events-none"></div>
+        
+        <div className="absolute inset-0 flex flex-col justify-between p-8 md:p-12 z-20 pointer-events-none">
           <div className="flex flex-wrap gap-2 mb-4">
              {project.tags.map(tag => (
-                <span key={tag} className="text-[10px] md:text-xs uppercase tracking-wider px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-white/80 border border-white/5">
+                <span key={tag} className="text-[10px] md:text-xs uppercase tracking-[0.2em] px-3 py-1 bg-black/50 text-white border border-white/20">
                   {tag}
                 </span>
              ))}
           </div>
-          <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tighter">{project.title}</h3>
-          <p className="text-lg text-white/60 mb-8 max-w-xl leading-relaxed">{project.description}</p>
-          <div className="flex flex-wrap gap-4">
-             <a href={project.live} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-semibold text-black bg-white hover:scale-105 px-6 py-3 rounded-full transition-transform">
-               <ExternalLink size={16} /> Live Site
-             </a>
-             <a href={project.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-colors backdrop-blur-md border border-white/10">
-               <Github size={16} /> Source Code
-             </a>
+          
+          <div className="mt-auto pointer-events-auto">
+            <h3 className="text-5xl md:text-7xl font-black text-white mb-4 tracking-tighter uppercase mix-blend-difference">{project.title}</h3>
+            <p className="text-lg text-white/80 mb-8 max-w-xl font-mono text-sm leading-relaxed">{project.description}</p>
+            <div className="flex flex-wrap gap-4">
+               <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-black bg-white hover:bg-gray-200 px-6 py-4 transition-colors pointer-events-auto cursor-pointer" data-cursor-pointer>
+                 <ExternalLink size={14} /> View Live
+               </a>
+               <a href={project.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-white bg-transparent border border-white/40 hover:bg-white/10 px-6 py-4 transition-colors pointer-events-auto cursor-pointer" data-cursor-pointer>
+                 <Github size={14} /> Source
+               </a>
+            </div>
           </div>
         </div>
       </div>
@@ -50,7 +55,6 @@ const ProjectsSection = () => {
   useGSAP(() => {
     const sections = gsap.utils.toArray('.project-card-wrapper');
     
-    // Only animate if we have sections
     if (sections.length > 0) {
       gsap.to(sections, {
         xPercent: -100 * (sections.length - 1),
@@ -58,20 +62,20 @@ const ProjectsSection = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           pin: true,
-          scrub: 1, // Smooth scrubbing
-          snap: 1 / (sections.length - 1), // Snap to sections
+          scrub: 1,
+          snap: 1 / (sections.length - 1),
           end: () => "+=" + (scrollContainerRef.current.offsetWidth || window.innerWidth),
         }
       });
     }
 
-    // Title entrance animation
     gsap.fromTo('.projects-title',
-      { opacity: 0, y: 50 },
+      { opacity: 0, x: -100 },
       { 
-        opacity: 1, 
-        y: 0, 
-        duration: 1, 
+        opacity: 0.2, 
+        x: 0, 
+        duration: 1.5, 
+        ease: "power4.out",
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top 80%",
@@ -83,20 +87,17 @@ const ProjectsSection = () => {
 
   return (
     <>
-      <section id="projects" ref={containerRef} className="relative bg-transparent text-white overflow-hidden h-screen flex flex-col justify-center">
+      <section id="projects" ref={containerRef} className="relative bg-black text-white overflow-hidden h-screen flex flex-col justify-center border-t border-white/10">
         
-        {/* Title pinned in the background of the section */}
-        <div className="absolute top-24 left-6 md:left-24 z-10 pointer-events-none projects-title">
-            <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-purple-400 mb-4 px-4 py-1.5 bg-purple-500/10 rounded-full border border-purple-500/20">
+        {/* Massive background text */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 z-0 pointer-events-none projects-title whitespace-nowrap overflow-hidden">
+            <h2 className="text-[20vw] font-black text-white tracking-tighter uppercase leading-none mix-blend-overlay">
               Selected Work
-            </span>
-            <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter">
-              My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">Creations.</span>
             </h2>
         </div>
 
-        <div className="w-full flex items-center pt-32">
-          <div ref={scrollContainerRef} className="flex flex-nowrap pl-[5vw] md:pl-[20vw] items-center">
+        <div className="w-full flex items-center z-10">
+          <div ref={scrollContainerRef} className="flex flex-nowrap pl-[5vw] md:pl-[10vw] items-center">
               {projects.map((project, i) => (
                 <div key={project.id} className="project-card-wrapper">
                   <ProjectCardHorizontal project={project} index={i} />
@@ -106,8 +107,7 @@ const ProjectsSection = () => {
         </div>
       </section>
 
-      {/* Put GithubStats in a separate unpinned section below */}
-      <section className="py-24 bg-transparent relative z-10">
+      <section className="py-24 bg-black relative z-10 border-t border-white/10">
         <GithubStats />
       </section>
     </>

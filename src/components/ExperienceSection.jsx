@@ -1,113 +1,74 @@
-// src/components/ExperienceSection.jsx
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaGraduationCap, FaBriefcase } from 'react-icons/fa';
-import { ArrowUpRight } from 'lucide-react';
+import React, { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const items = [
-  {
-    type: 'Work',
-    icon: FaBriefcase,
-    title: 'Software Developer Intern',
-    org: 'Steadfast Limited',
-    date: 'Jul 2023 – Jun 2024',
-    color: 'from-purple-600 to-pink-500',
-    iconBg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
-    description: 'Built and maintained responsive React UIs, consumed RESTful APIs, and collaborated in an agile team across the full software development lifecycle.',
-  },
-  {
-    type: 'Education',
-    icon: FaGraduationCap,
-    title: 'HND — Computer Science',
-    org: 'Kano State Polytechnic',
-    date: 'Graduated 2024',
-    color: 'from-pink-500 to-violet-500',
-    iconBg: 'bg-pink-500/10 text-pink-600 dark:text-pink-400',
-    description: 'Studied software development, database management, and core CS principles. Built multiple coursework projects using web technologies.',
-  },
-];
+import { experiences } from '../data/experiences';
 
-const TimelineCard = ({ item, i }) => (
-  <motion.div
-    className="relative flex gap-6 pb-10 last:pb-0"
-    initial={{ opacity: 0, x: -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true, amount: 0.4 }}
-    transition={{ duration: 0.5, delay: i * 0.15 }}
-  >
-    {/* Vertical line */}
-    {i < items.length - 1 && (
-      <div className="absolute left-5 top-12 bottom-0 w-px bg-slate-200 dark:bg-white/[0.06]" />
-    )}
+gsap.registerPlugin(ScrollTrigger);
 
-    {/* Icon */}
-    <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-sm z-10 ${item.iconBg} border border-current/10`}>
-      <item.icon />
-    </div>
-
-    {/* Content */}
-    <motion.div
-      className="flex-1 bg-white/60 dark:bg-white/[0.03] backdrop-blur-sm border border-slate-200/60 dark:border-white/[0.07] rounded-2xl p-5 hover:shadow-lg transition-shadow duration-300 group"
-      whileHover={{ y: -3 }}
+const ExperienceItem = ({ exp }) => {
+  return (
+    <div 
+      className="group border-b border-white/20 py-12 md:py-16 px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-center hover:bg-white hover:text-black transition-colors duration-500 cursor-pointer" 
+      data-cursor-pointer
     >
-      <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
-        <div>
-          <h3 className="font-bold text-slate-900 dark:text-white text-base leading-tight">{item.title}</h3>
-          <p className={`text-sm font-semibold mt-0.5 text-transparent bg-clip-text bg-gradient-to-r ${item.color}`}>{item.org}</p>
-        </div>
-        <span className="text-xs font-mono text-slate-400 dark:text-slate-500 whitespace-nowrap mt-0.5">{item.date}</span>
-      </div>
-      <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{item.description}</p>
-    </motion.div>
-  </motion.div>
-);
-
-const ExperienceSection = () => (
-  <section id="experience" className="py-28 px-8 md:px-16 relative z-10">
-    <div className="max-w-3xl mx-auto">
-
-      {/* Section header */}
-      <motion.div
-        className="text-center mb-14"
-        initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }} transition={{ duration: 0.5 }}
-      >
-        <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-purple-600 dark:text-purple-400 mb-4 px-4 py-1.5 bg-purple-500/10 rounded-full border border-purple-500/20">
-          My Journey
+      <div className="flex flex-col relative z-10">
+        <h3 className="text-[8vw] md:text-[4vw] font-black uppercase tracking-tighter leading-none mb-2 md:mb-0 group-hover:translate-x-8 transition-transform duration-500 ease-out">
+          {exp.title}
+        </h3>
+        <span className="text-white/50 font-mono text-xs md:text-sm uppercase tracking-widest group-hover:text-black/60 group-hover:translate-x-8 transition-all duration-500 delay-75">
+          {exp.company}
         </span>
-        <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
-          Experience &{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
-            Education
-          </span>
-        </h2>
-        <p className="text-slate-500 dark:text-slate-400 mt-4 max-w-xl mx-auto">
-          My path from the classroom to building production software.
+      </div>
+      
+      <div className="mt-8 md:mt-0 md:text-right relative z-10">
+        <p className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] mb-4 md:mb-2">{exp.period}</p>
+        <p className="max-w-md text-sm md:text-base text-white/70 group-hover:text-black/80 transition-colors duration-500 hidden md:block">
+          {exp.description}
         </p>
-      </motion.div>
+      </div>
+    </div>
+  );
+};
 
-      {/* Timeline */}
-      <div>
-        {items.map((item, i) => <TimelineCard key={item.title} item={item} i={i} />)}
+const ExperienceSection = () => {
+  const containerRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.fromTo('.exp-item', 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        duration: 1,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 70%",
+        }
+      }
+    );
+  }, { scope: containerRef });
+
+  return (
+    <section id="experience" ref={containerRef} className="w-full py-32 md:py-48 bg-black border-t border-white/10 z-10 relative">
+      <div className="mb-16 md:mb-24 px-6 md:px-12">
+        <span className="text-white font-mono text-sm uppercase tracking-[0.3em] border border-white/20 px-4 py-2 rounded-full">
+          The Journey
+        </span>
       </div>
 
-      {/* CTA */}
-      <motion.div
-        className="mt-10 text-center"
-        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-        viewport={{ once: true }} transition={{ delay: 0.4 }}
-      >
-        <a
-          href="/resume.pdf"
-          download
-          className="inline-flex items-center gap-2 text-sm font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors group"
-        >
-          View full résumé
-          <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </a>
-      </motion.div>
-    </div>
-  </section>
-);
+      <div className="w-full border-t border-white/20">
+        {experiences.map((exp, i) => (
+          <div key={i} className="exp-item">
+            <ExperienceItem exp={exp} />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default ExperienceSection;
